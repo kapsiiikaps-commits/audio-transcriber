@@ -1,0 +1,51 @@
+.status-bar {
+  border-radius: 8px;
+  padding: 0.65rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.status-uploading {
+  background: rgba(123, 108, 255, 0.1);
+  border: 1px solid rgba(123, 108, 255, 0.3);
+  color: var(--accent);
+}
+
+.status-uploading .status-icon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.status-success {
+  background: rgba(108, 255, 218, 0.08);
+  border: 1px solid rgba(108, 255, 218, 0.25);
+  color: var(--success);
+}
+
+.status-error {
+  background: rgba(255, 108, 138, 0.08);
+  border: 1px solid rgba(255, 108, 138, 0.25);
+  color: var(--error);
+}
+
+.status-icon {
+  flex-shrink: 0;
+  font-size: 0.8rem;
+}
+
+.status-text {
+  flex: 1;
+}
