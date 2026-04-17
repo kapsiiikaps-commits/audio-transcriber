@@ -11,6 +11,7 @@ function App() {
   );
   const [apiKey, setApiKey] = useState("");
   const [audioFile, setAudioFile] = useState(null);
+  const [reporterFile, setReporterFile] = useState(null);
   const [transcriptData, setTranscriptData] = useState([]);
   const [status, setStatus] = useState("idle"); // idle | uploading | success | error
   const [errorMsg, setErrorMsg] = useState("");
@@ -30,6 +31,13 @@ function App() {
     setRawResponse(null);
     setStatus("idle");
     setErrorMsg("");
+  }, []);
+
+  const handleReporterFileSelect = useCallback((e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setReporterFile(file);
+    }
   }, []);
 
   const parseTranscriptResponse = (data) => {
@@ -168,6 +176,9 @@ function App() {
       formData.append("witnessName", witnessName.trim());
     }
     formData.append("language", language);
+    if (reporterFile) {
+      formData.append("reporterFile", reporterFile);
+    }
 
     try {
       await new Promise((resolve, reject) => {
@@ -263,6 +274,7 @@ function App() {
 
   const handleReset = () => {
     setAudioFile(null);
+    setReporterFile(null);
     setTranscriptData([]);
     setRawResponse(null);
     setStatus("idle");
@@ -434,6 +446,24 @@ function App() {
                   <option value="ja-JP">Japanese</option>
                   <option value="ko-KR">Korean</option>
                 </select>
+              </div>
+              <div className="field">
+                <label className="field-label">
+                  REPORTER FILE <span className="optional">(optional)</span>
+                </label>
+                <input
+                  className="field-input"
+                  type="file"
+                  accept=".txt,.docx,.doc,.pdf"
+                  onChange={handleReporterFileSelect}
+                  disabled={status === "uploading"}
+                  style={{ padding: '8px' }}
+                />
+                {reporterFile && (
+                  <div style={{ marginTop: '8px', fontSize: '12px', color: '#4ade80' }}>
+                    Selected: {reporterFile.name}
+                  </div>
+                )}
               </div>
             </div>
           </div>
